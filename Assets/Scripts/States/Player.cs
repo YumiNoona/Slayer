@@ -9,8 +9,6 @@ public class Player : MonoBehaviour
 
     private StateMachine stateMachine;
 
-
-
     public Player_IdleState idleState { get; private set; }
     public Player_MoveState moveState { get; private set; }
     public Player_JumpState jumpState { get; private set; }
@@ -24,82 +22,159 @@ public class Player : MonoBehaviour
     [Header("Attack details")]
     public Vector2[] attackVelocity;
     public Vector2 jumpAttackVelocity;
-    public float attackVelocityDuration = .1f;
-    public float comboResetTime = 1;
+
+    public float attackVelocityDuration = 0.1f;
+    public float comboResetTime = 1f;
+
     private Coroutine queuedAttackCo;
 
-
-
     [Header("Movement details")]
-    public float moveSpeed;
-    public float jumpForce = 5;
-    public Vector2 wallJumpForce;
+    public float moveSpeed = 8f;
+    public float jumpForce = 12f;
+    public Vector2 wallJumpForce = new Vector2(6f, 12f);
 
-    [Range(0,1)]
-    public float inAirMoveMultiplier = .7f; // Should be from 0 to 1;
-    [Range(0,1)]
-    public float wallSlideSlowMultiplier = .7f;
+    [Range(0f, 1f)]
+    public float inAirMoveMultiplier = 0.8f;
+
+    [Range(0f, 1f)]
+    public float wallSlideSlowMultiplier = 0.4f;
+
     [Space]
-    public float dashDuration = .25f;
-    public float dashSpeed = 20;
-
-
+    public float dashDuration = 0.25f;
+    public float dashSpeed = 20f;
 
     private bool facingRight = true;
+
     public int facingDir { get; private set; } = 1;
     public Vector2 moveInput { get; private set; }
 
     [Header("Collision detection")]
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private float wallCheckDistance;
+    [SerializeField] private float groundCheckDistance = 1.4f;
+    [SerializeField] private float wallCheckDistance = 0.4f;
     [SerializeField] private LayerMask whatIsGround;
+
     [SerializeField] private Transform primaryWallCheck;
     [SerializeField] private Transform secondaryWallCheck;
+
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
 
     private void Awake()
     {
+        Debug.Log("PLAYER AWAKE RUNNING", gameObject);
+
+        /*
+         * The Animator should exist on the child object containing
+         * the SpriteRenderer and AC_Player controller.
+         */
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        if (anim == null)
+            Debug.LogError("No Animator was found in Player or its children.", gameObject);
+
+        if (rb == null)
+            Debug.LogError("No Rigidbody2D was found on the Player.", gameObject);
 
         stateMachine = new StateMachine();
         input = new PlayerInputSet();
 
+        // These names must exactly match the Animator parameters.
+        idleState = new Player_IdleState(this, stateMachine, "Idle");
+        moveState = new Player_MoveState(this, stateMachine, "Move");
 
-        idleState = new Player_IdleState(this, stateMachine, "idle");
-        moveState = new Player_MoveState(this, stateMachine, "move");
-        jumpState = new Player_JumpState(this, stateMachine, "jumpFall");
-        fallState = new Player_FallState(this, stateMachine, "jumpFall");
-        wallSlideState = new Player_WallSlideState(this, stateMachine, "wallSlide");
-        wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
-        dashState = new Player_DashState(this, stateMachine, "dash");
-        basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
-        jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
+        jumpState = new Player_JumpState(
+            this,
+            stateMachine,
+            "JumpFall"
+        );
+
+        fallState = new Player_FallState(
+            this,
+            stateMachine,
+            "JumpFall"
+        );
+
+        wallSlideState = new Player_WallSlideState(
+            this,
+            stateMachine,
+            "WallSlide"
+        );
+
+        wallJumpState = new Player_WallJumpState(
+            this,
+            stateMachine,
+            "JumpFall"
+        );
+
+        dashState = new Player_DashState(
+            this,
+            stateMachine,
+            "Dash"
+        );
+
+        basicAttackState = new Player_BasicAttackState(
+            this,
+            stateMachine,
+            "BasicAttack"
+        );
+
+        jumpAttackState = new Player_JumpAttackState(
+            this,
+            stateMachine,
+            "JumpAttack"
+        );
     }
 
     private void OnEnable()
     {
         input.Enable();
 
-        input.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
+        input.Player.Movement.performed += OnMovementPerformed;
+        input.Player.Movement.canceled += OnMovementCanceled;
     }
 
     private void OnDisable()
     {
+        input.Player.Movement.performed -= OnMovementPerformed;
+        input.Player.Movement.canceled -= OnMovementCanceled;
+
         input.Disable();
     }
 
     private void Start()
     {
-         stateMachine.Initialize(idleState);
+        Debug.Log($"Animator found: {anim}", anim);
+
+        if (anim != null)
+        {
+            Debug.Log(
+                $"Animator Controller: {anim.runtimeAnimatorController}",
+                anim
+            );
+        }
+
+        stateMachine.Initialize(idleState);
     }
 
     private void Update()
     {
         HandleCollisionDetection();
         stateMachine.UpdateActiveState();
+    }
+
+    private void OnMovementPerformed(
+        UnityEngine.InputSystem.InputAction.CallbackContext context
+    )
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnMovementCanceled(
+        UnityEngine.InputSystem.InputAction.CallbackContext context
+    )
+    {
+        moveInput = Vector2.zero;
     }
 
     public void EnterAttackStateWithDelay()
@@ -113,7 +188,9 @@ public class Player : MonoBehaviour
     private IEnumerator EnterAttackStateWithDelayCo()
     {
         yield return new WaitForEndOfFrame();
+
         stateMachine.ChangeState(basicAttackState);
+        queuedAttackCo = null;
     }
 
     public void CallAnimationTrigger()
@@ -123,37 +200,84 @@ public class Player : MonoBehaviour
 
     public void SetVelocity(float xVelocity, float yVelocity)
     {
+        if (rb == null)
+            return;
+
         rb.linearVelocity = new Vector2(xVelocity, yVelocity);
         HandleFlip(xVelocity);
     }
 
-    private void HandleFlip(float xVelcoity)
+    private void HandleFlip(float xVelocity)
     {
-        if (xVelcoity > 0 && facingRight == false)
+        if (xVelocity > 0f && !facingRight)
             Flip();
-        else if (xVelcoity < 0 && facingRight)
+        else if (xVelocity < 0f && facingRight)
             Flip();
     }
 
     public void Flip()
     {
-        transform.Rotate(0, 180, 0);
+        transform.Rotate(0f, 180f, 0f);
+
         facingRight = !facingRight;
-        facingDir = facingDir * -1;
+        facingDir *= -1;
     }
 
     private void HandleCollisionDetection()
     {
-        groundDetected = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        wallDetected = Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround)
-                    && Physics2D.Raycast(secondaryWallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
-    }
+        groundDetected = Physics2D.Raycast(
+            transform.position,
+            Vector2.down,
+            groundCheckDistance,
+            whatIsGround
+        );
 
+        if (primaryWallCheck == null || secondaryWallCheck == null)
+        {
+            wallDetected = false;
+            return;
+        }
+
+        bool primaryCheck = Physics2D.Raycast(
+            primaryWallCheck.position,
+            Vector2.right * facingDir,
+            wallCheckDistance,
+            whatIsGround
+        );
+
+        bool secondaryCheck = Physics2D.Raycast(
+            secondaryWallCheck.position,
+            Vector2.right * facingDir,
+            wallCheckDistance,
+            whatIsGround
+        );
+
+        wallDetected = primaryCheck && secondaryCheck;
+    }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
-        Gizmos.DrawLine(primaryWallCheck.position, primaryWallCheck.position + new Vector3(wallCheckDistance * facingDir, 0));
-        Gizmos.DrawLine(secondaryWallCheck.position, secondaryWallCheck.position + new Vector3(wallCheckDistance * facingDir, 0));
+        Gizmos.DrawLine(
+            transform.position,
+            transform.position + Vector3.down * groundCheckDistance
+        );
+
+        if (primaryWallCheck != null)
+        {
+            Gizmos.DrawLine(
+                primaryWallCheck.position,
+                primaryWallCheck.position +
+                Vector3.right * facingDir * wallCheckDistance
+            );
+        }
+
+        if (secondaryWallCheck != null)
+        {
+            Gizmos.DrawLine(
+                secondaryWallCheck.position,
+                secondaryWallCheck.position +
+                Vector3.right * facingDir * wallCheckDistance
+            );
+        }
     }
 }

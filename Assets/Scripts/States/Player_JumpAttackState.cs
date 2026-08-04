@@ -23,7 +23,7 @@ public class Player_JumpAttackState : EntityState
         if (player.groundDetected && touchedGround == false)
         {
             touchedGround = true;
-            anim.SetTrigger("jumpAttackTrigger");
+            anim.SetTrigger("JumpAttackTrigger");
             player.SetVelocity(0, rb.linearVelocity.y);
         }
 

@@ -30,7 +30,7 @@ public class Player_BasicAttackState : EntityState
         // Define attack direction according to input
         attackDir = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDir;
 
-        anim.SetInteger("baiscAttackIndex", comboIndex);
+        anim.SetInteger("BasicAttackIndex", comboIndex);
         ApplyAttackVelocity();
     }
 

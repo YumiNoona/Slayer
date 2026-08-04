@@ -33,7 +33,7 @@ public abstract class EntityState
     public virtual void Update()
     {
         stateTimer -= Time.deltaTime;
-        anim.SetFloat("yVelocity", rb.linearVelocity.y);
+        anim.SetFloat("YVelocity", rb.linearVelocity.y);
 
         if (input.Player.Dash.WasPressedThisFrame() && CanDash())
             stateMachine.ChangeState(player.dashState);
