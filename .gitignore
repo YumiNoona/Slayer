@@ -28,6 +28,9 @@
 # Visual Studio cache directory
 .vs/
 
+# JetBrains IDE settings
+.idea/
+
 # Gradle cache directory
 .gradle/
 
@@ -37,6 +40,7 @@ ExportedObj/
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.tmp
 *.user
@@ -48,6 +52,11 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+Desktop.ini
 
 # Unity3D generated meta files
 *.pidb.meta
