@@ -26,6 +26,7 @@ public class Player_BasicAttackState : PlayerState
         base.Enter();
         comboAttackQueued = false;
         ResetComboIndexIfNeeded();
+        SyncAttackSpeed();
 
         // Define attack direction according to input
         attackDir = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDir;

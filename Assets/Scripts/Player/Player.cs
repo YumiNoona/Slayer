@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+//using Unity.Cinemachine;
 using UnityEngine;
 
 public class Player : Entity
@@ -64,6 +65,42 @@ public class Player : Entity
     {
         base.Start();
         stateMachine.Initialize(idleState);
+    }
+
+    protected override IEnumerator SlowDownEntityCo(float duration, float slowMultiplier)
+    {
+        float originalMoveSpeed = moveSpeed;
+        float originalJumpForce = jumpForce;
+        float originalAnimSpeed = anim.speed;
+        Vector2 originalWallJump = wallJumpForce;
+        Vector2 originalJumpAttack = jumpAttackVelocity;
+        Vector2[] originalAttackVelocity = attackVelocity;
+
+        float speedMultiplier = 1 - slowMultiplier;
+
+        moveSpeed = moveSpeed * speedMultiplier;
+        jumpForce = jumpForce * speedMultiplier;
+        anim.speed = anim.speed * speedMultiplier;
+        wallJumpForce = wallJumpForce * speedMultiplier;
+        jumpAttackVelocity = jumpAttackVelocity * speedMultiplier;
+
+        for (int i = 0; i < attackVelocity.Length; i++)
+        {
+            attackVelocity[i] = attackVelocity[i] * speedMultiplier;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed = originalMoveSpeed;
+        jumpForce = originalJumpForce;
+        anim.speed = originalAnimSpeed;
+        wallJumpForce = originalWallJump;
+        jumpAttackVelocity = originalJumpAttack;
+
+        for (int i = 0; i < attackVelocity.Length; i++)
+        {
+            attackVelocity[i] = originalAttackVelocity[i];
+        }
     }
 
     public override void EntityDeath()
