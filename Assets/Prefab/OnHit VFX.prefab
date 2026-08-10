@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5612337755127383022}
+  - component: {fileID: 6201137159163564656}
   m_Layer: 0
   m_Name: OnHit VFX
   m_TagString: Untagged
@@ -32,6 +33,26 @@ Transform:
   - {fileID: 2880457802942671102}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6201137159163564656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741488077504243977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2099eabfbce30b0468ef9053b82fe06a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFX_AutoController
+  autoDestroy: 1
+  destroyDelay: 1
+  randomOffset: 1
+  randomRotation: 1
+  xMinOffset: -0.3
+  xMaxOffset: 0.3
+  yMinOffset: -0.3
+  yMaxOffset: 0.3
 --- !u!1 &3866363041057880238
 GameObject:
   m_ObjectHideFlags: 0

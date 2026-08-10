@@ -299,7 +299,7 @@ public partial class @PlayerInputSet: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard & Mouse"",
+                    ""groups"": """",
                     ""action"": ""CounterAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
