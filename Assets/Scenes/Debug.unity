@@ -440,9 +440,9 @@ GameObject:
   - component: {fileID: 710805014}
   - component: {fileID: 710805015}
   - component: {fileID: 710805016}
-  - component: {fileID: 710805017}
   - component: {fileID: 710805018}
   - component: {fileID: 710805019}
+  - component: {fileID: 710805017}
   - component: {fileID: 710805020}
   m_Layer: 8
   m_Name: EnemySkeleton
@@ -657,10 +657,10 @@ MonoBehaviour:
       modifiers: []
   offense:
     attackSpeed:
-      baseValue: 0
+      baseValue: 1
       modifiers: []
     damage:
-      baseValue: 0
+      baseValue: 150
       modifiers: []
     critPower:
       baseValue: 0
