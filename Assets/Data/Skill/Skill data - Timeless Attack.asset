@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0beb6f10f9966040bc3dcf8d2440692, type: 3}
-  m_Name: Skill data - Healing Wish
+  m_Name: Skill data - Timeless Attack
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
   cost: 2
-  displayName: Healing Wish
-  description: When the echo is killed by enemy, it releases a healing wisp that
-    moves toward you and heals on contact.
-  icon: {fileID: -1002020038, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
+  displayName: Timeless Attack
+  description: The echo can perform 1 attack.
+  icon: {fileID: -541723271, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
