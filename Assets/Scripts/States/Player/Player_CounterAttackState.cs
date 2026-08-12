@@ -15,7 +15,7 @@ public class Player_CounterAttackState : PlayerState
         stateTimer = combat.GetCounterRecoveryDuration();
         counteredSombody = combat.CounterAttackPerformed();
 
-        anim.SetBool("CounterAttackPerformed", counteredSombody);
+        anim.SetBool("counterAttackPerformed", counteredSombody);
     }
 
     public override void Update()

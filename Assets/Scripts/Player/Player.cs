@@ -6,6 +6,10 @@ using UnityEngine;
 public class Player : Entity
 {
     public static event Action OnPlayerDeath;
+
+    private UI ui;
+    public Player_SkillManager skillManager { get; private set; }
+    public Player_VFX vfx { get; private set; }
     public PlayerInputSet input { get; private set; }
 
     public Player_IdleState idleState { get; private set; }
@@ -45,6 +49,9 @@ public class Player : Entity
     {
         base.Awake();
 
+        ui = FindObjectOfType<UI>();
+        skillManager = GetComponent<Player_SkillManager>();
+        vfx = GetComponent<Player_VFX>();
         input = new PlayerInputSet();
 
 
