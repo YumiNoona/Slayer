@@ -10,6 +10,11 @@ public class Entity_Stats : MonoBehaviour
     public Stat_DefenseGroup defense;
     public Stat_MajorGroup major;
 
+    public AttackData GetAttackData(DamageScaleData scaleData)
+    {
+        return new AttackData(this, scaleData);
+    }
+
 
     public float GetElementalDamage(out ElementType element, float scaleFactor = 1)
     {
@@ -40,9 +45,9 @@ public class Entity_Stats : MonoBehaviour
             return 0;
         }
 
-        float bonusFire = (element == ElementType.Fire) ? 0 : fireDamage * .5f; 
-        float bonusIce = (element == ElementType.Ice) ? 0 : iceDamage * .5f; 
-        float bonusLightning = (element == ElementType.Lightning) ? 0 : lightningDamage * .5f;
+        float bonusFire = (fireDamage == highestDamage) ? 0 : fireDamage * .5f;
+        float bonusIce = (iceDamage == highestDamage) ? 0 : iceDamage * .5f;
+        float bonusLightning = (lightningDamage == highestDamage) ? 0 : lightningDamage * .5f;
 
         float weakerElementsDamage = bonusFire + bonusIce + bonusLightning;
         float finalDamage = highestDamage + weakerElementsDamage + bonusElementalDamage;

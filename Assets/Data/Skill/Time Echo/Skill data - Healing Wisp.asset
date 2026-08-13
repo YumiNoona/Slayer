@@ -17,3 +17,18 @@ MonoBehaviour:
   description: When the echo is killed by enemy, it releases a healing wisp that
     moves toward you and heals on contact.
   icon: {fileID: -1002020038, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
+  unlockedByDefault: 0
+  skillType: 1
+  upgradeData:
+    upgradeType: 0
+    cooldown: 0
+    damageScaleData:
+      phyiscal: 1
+      elemental: 1
+      chillDuration: 3
+      chillSlowMulitplier: 0.2
+      burnDuratin: 3
+      burnDamageScale: 1
+      shockDuration: 3
+      shockDamageScale: 1
+      shockCharge: 0.4

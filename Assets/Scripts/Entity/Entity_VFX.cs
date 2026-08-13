@@ -1,11 +1,11 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Entity_VFX : MonoBehaviour
 {
 
-    private SpriteRenderer sr;
+    protected SpriteRenderer sr;
     private Entity entity;
 
     [Header("On Taking Damage VFX")]
@@ -22,10 +22,11 @@ public class Entity_VFX : MonoBehaviour
     [Header("Element Colors")]
     [SerializeField] private Color chillVfx = Color.cyan;
     [SerializeField] private Color burnVfx = Color.red;
-    [SerializeField] private Color electrifyVfx = Color.yellow;
+    [FormerlySerializedAs("electrifyVfx")]
+    [SerializeField] private Color shockVfx = Color.yellow;
     private Color originalHitVfxColor;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         entity = GetComponent<Entity>();
         sr = GetComponentInChildren<SpriteRenderer>();
@@ -42,8 +43,8 @@ public class Entity_VFX : MonoBehaviour
         if (element == ElementType.Fire)
             StartCoroutine(PlayStatusVfxCo(duration, burnVfx));
 
-        if(element == ElementType.Lightning)
-            StartCoroutine(PlayStatusVfxCo(duration, electrifyVfx));
+        if (element == ElementType.Lightning)
+            StartCoroutine(PlayStatusVfxCo(duration, shockVfx));
             
     }
 
@@ -76,23 +77,30 @@ public class Entity_VFX : MonoBehaviour
         sr.color = Color.white;
     }
 
-    public void CreateOnHitVFX(Transform target,bool isCrit)
+    public void CreateOnHitVFX(Transform target, bool isCrit, ElementType element)
     {
         GameObject hitPrefab = isCrit ? critHitVfx : hitVfx;
-        GameObject vfx = Instantiate(hitPrefab, target.position, Quaternion.identity);
-        vfx.GetComponentInChildren<SpriteRenderer>().color = hitVfxColor;
+        if (hitPrefab == null)
+            return;
 
-        if (entity.facingDir == -1 && isCrit)
+        GameObject vfx = Instantiate(hitPrefab, target.position, Quaternion.identity);
+        SpriteRenderer hitRenderer = vfx.GetComponentInChildren<SpriteRenderer>();
+        if (hitRenderer != null)
+            hitRenderer.color = GetElementColor(element);
+
+        if (entity != null && entity.facingDir == -1 && isCrit)
             vfx.transform.Rotate(0, 180, 0);
     }
 
-    public void UpdateOnHitColor(ElementType element)
+    public Color GetElementColor(ElementType element)
     {
-        if (element == ElementType.Ice)
-            hitVfxColor = chillVfx;
-
-        if(element == ElementType.None)
-            hitVfxColor = originalHitVfxColor;
+        switch (element)
+        {
+            case ElementType.Ice: return chillVfx;
+            case ElementType.Fire: return burnVfx;
+            case ElementType.Lightning: return shockVfx;
+            default: return originalHitVfxColor;
+        }
     }
 
     public void PlayOnDamageVfx()

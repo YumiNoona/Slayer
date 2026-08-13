@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0beb6f10f9966040bc3dcf8d2440692, type: 3}
-  m_Name: Skill data - Deja Vu
+  m_Name: Skill data - Irritated Shard
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
-  cost: 3
-  displayName: Deja Vu
-  description: Create a Time Echo On Arrival.
-  icon: {fileID: -1591911938, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
+  displayName: Irritated Shard
+  description: Shard will fly towards the closest enemy.
+  icon: {fileID: 0}
+  cost: 2
   unlockedByDefault: 0
-  skillType: 0
+  skillType: 2
   upgradeData:
-    upgradeType: 3
-    cooldown: 3
+    upgradeType: 7
+    cooldown: 4
     damageScaleData:
       phyiscal: 1
       elemental: 1

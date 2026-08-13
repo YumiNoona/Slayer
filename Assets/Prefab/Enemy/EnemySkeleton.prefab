@@ -737,7 +737,7 @@ MonoBehaviour:
   critHitVfx: {fileID: 0}
   chillVfx: {r: 0, g: 1, b: 1, a: 1}
   burnVfx: {r: 1, g: 0, b: 0, a: 1}
-  electrifyVfx: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  shockVfx: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   attackAlert: {fileID: 7387596519478643396}
 --- !u!114 &6871657029960974605
 MonoBehaviour:
@@ -751,16 +751,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f811923b5476143b60cfffc51fd831, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Combat
+  basicAttackScale:
+    phyiscal: 1
+    elemental: 1
+    chillDuration: 3
+    chillSlowMulitplier: 0.2
+    burnDuratin: 3
+    burnDamageScale: 1
+    shockDuration: 3
+    shockDamageScale: 1
+    shockCharge: 0.4
   targetCheck: {fileID: 7067138391699272256}
   targetCheckRadius: 1
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 128
-  defaultDuration: 3
-  chillSlowMultiplier: 0.2
-  electrifyChargeBuildUp: 0.4
-  fireScale: 0.8
-  lightningScale: 2.5
 --- !u!114 &6876860657855591412
 MonoBehaviour:
   m_ObjectHideFlags: 0

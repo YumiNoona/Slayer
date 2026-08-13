@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0beb6f10f9966040bc3dcf8d2440692, type: 3}
-  m_Name: Skill data - Deja Vu
+  m_Name: Skill data - Phantom Recall
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
-  cost: 3
-  displayName: Deja Vu
-  description: Create a Time Echo On Arrival.
-  icon: {fileID: -1591911938, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
+  displayName: Phantom Recall
+  description: Press the skill button again to swap places with the shard you created.
+  icon: {fileID: 0}
+  cost: 2
   unlockedByDefault: 0
-  skillType: 0
+  skillType: 2
   upgradeData:
-    upgradeType: 3
+    upgradeType: 9
     cooldown: 3
     damageScaleData:
       phyiscal: 1
