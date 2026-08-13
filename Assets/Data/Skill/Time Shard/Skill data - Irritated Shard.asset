@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
   displayName: Irritated Shard
   description: Shard will fly towards the closest enemy.
-  icon: {fileID: 0}
+  icon: {fileID: 227232305, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
   cost: 2
   unlockedByDefault: 0
   skillType: 2

@@ -15,8 +15,9 @@ MonoBehaviour:
   displayName: Time Shard
   description: 'Create a time shard filled with elemental magic.
 
-    The shard explodes when touched by an enemy or when time runs out.'
-  icon: {fileID: 0}
+    The shard explodes
+    when touched by an enemy or when time runs out.'
+  icon: {fileID: -1907143, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
   cost: 0
   unlockedByDefault: 0
   skillType: 2

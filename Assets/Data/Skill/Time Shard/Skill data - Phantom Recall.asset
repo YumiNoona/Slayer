@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Skill_DataSO
   displayName: Phantom Recall
   description: Press the skill button again to swap places with the shard you created.
-  icon: {fileID: 0}
+  icon: {fileID: 1346884092, guid: 599927e724fb67447bfb6e7a34ff2fc8, type: 3}
   cost: 2
   unlockedByDefault: 0
   skillType: 2
